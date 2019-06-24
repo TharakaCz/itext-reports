@@ -5,17 +5,23 @@
  */
 package com.itex.lk.report.controller;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itex.lk.model.Customer;
 import com.itex.lk.reports.service.ItexReportsService;
+import com.itex.lk.utill.GenerateItexPdfReports;
 
 /**
  * @author Tharaka Chandralal
@@ -29,12 +35,22 @@ public class ItexReportController {
 	private ItexReportsService itexReportsService;
 	
 	@GetMapping(value="/customerReport",produces=MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<Object>reportItex(){
+	public ResponseEntity<InputStreamResource>reportItex(){
+		
 		try {
-			return new ResponseEntity<Object>(itexReportsService.createCustomerReports(),HttpStatus.OK);
+			List<Customer>customers = itexReportsService.createCustomerReports();
+			ByteArrayInputStream bis = GenerateItexPdfReports.customerReports(customers);
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-Disposition", "inline; filename=customer.pdf");
+			return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+					.body(new InputStreamResource(bis));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<Object>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+			
 		}
+	
+		return new ResponseEntity<InputStreamResource>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
 	}
 }

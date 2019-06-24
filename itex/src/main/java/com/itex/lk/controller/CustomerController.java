@@ -81,4 +81,14 @@ public class CustomerController {
 		}
 		
 	}
+	
+	@GetMapping(value="/getAllCustomerUsingNic/{customerNic}")
+	public ResponseEntity<Object>getAllCustomersUsingNic(@PathVariable("customerNic")String customerNic){
+		try {
+			return new ResponseEntity<Object>(customerService.findCustomerUsingNic(customerNic),HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

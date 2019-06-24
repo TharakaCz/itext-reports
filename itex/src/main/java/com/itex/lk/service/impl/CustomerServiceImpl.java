@@ -129,6 +129,19 @@ public class CustomerServiceImpl implements CustomerService{
 		return customerDtos;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.itex.lk.service.CustomerService#findCustomerUsingNic(java.lang.String)
+	 */
+	@Override
+	public CustomerDto findCustomerUsingNic(String customerNic) throws Exception {
+		
+		Customer customer = customerDao.findByCustomerNic(customerNic);
+		
+		CustomerDto customerDto = getCustomer(customer);
+		
+		return customerDto;
+	}
+	
 	private CustomerDto getCustomer(Customer customer)throws Exception{
 		CustomerDto customerDto = new CustomerDto();
 		
@@ -142,4 +155,6 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		return customerDto;
 	}
+
+	
 }
