@@ -30,11 +30,11 @@ public class ItexReportsServiceImpl implements ItexReportsService{
 	 * @see com.itex.lk.reports.service.ItexReportsService#createCustomerReports(java.lang.String)
 	 */
 	@Override
-	public ByteArrayInputStream createCustomerReports() throws Exception {
+	public List<Customer> createCustomerReports() throws Exception {
 		
 		List<Customer> customers = customerDao.findAllByStatus(AppConstant.ACTIVE);
-		ByteArrayInputStream stream = GenerateItexPdfReports.customerReports(customers); 
-		return stream;
+		
+		return customers;
 	}
 
 }

@@ -22,6 +22,8 @@ public interface CustomerService {
 	
 	public CustomerDto findCustomer(String customerId)throws Exception;
 	
+	public CustomerDto findCustomerUsingNic(String customerNic)throws Exception;
+	
 	List<CustomerDto> getAllCustomer()throws Exception;
 	
 }

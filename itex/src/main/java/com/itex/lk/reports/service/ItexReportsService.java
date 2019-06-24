@@ -5,12 +5,14 @@
  */
 package com.itex.lk.reports.service;
 
-import java.io.ByteArrayInputStream;
+import java.util.List;
+
+import com.itex.lk.model.Customer;
 
 /**
  * @author Tharaka Chandralal
  */
 public interface ItexReportsService {
 
-	ByteArrayInputStream createCustomerReports()throws Exception;
+	List<Customer> createCustomerReports()throws Exception;
 }
